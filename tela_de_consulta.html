@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Horário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <p>🏫 Reserva de Salas</p>
+        <button type="button" class="btn-deslogar">Sair</button>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Horários da semana</h2>
+            <div class="topo-consulta">
+                <div>
+                    <label for="sala">Sala</label>
+                    <select id="sala"></select>
+                </div>
+                <button type="button" class="btn btn-secundario btn-consultar">Minhas reservas</button>
+            </div>
+
+            <div class="legenda">
+                <span style="--cor: var(--livre)">Livre</span>
+                <span style="--cor: var(--ocupada)">Ocupada</span>
+                <span style="--cor: var(--minha)">Sua reserva</span>
+                <span style="--cor: var(--passado)">Já passou</span>
+            </div>
+
+            <div id="grade"></div>
+        </section>
+    </main>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

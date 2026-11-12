@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Reserva: o ID do documento é "sala_data_hora" (ex.: 2_2026-11-12_9),
+    // então duas pessoas nunca conseguem criar a mesma reserva.
+    match /reservas/{id} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['uid', 'sala', 'salaNome', 'data', 'hora', 'semana'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.sala is int && request.resource.data.sala in [1, 2, 3, 4]
+        && request.resource.data.hora is int && request.resource.data.hora in [8, 9, 10, 11]
+        && request.resource.data.data is string && request.resource.data.data.size() == 10
+        && request.resource.data.semana is string && request.resource.data.semana.size() == 10
+        && id == string(request.resource.data.sala) + '_' + request.resource.data.data + '_' + string(request.resource.data.hora)
+        // obriga a criar junto o "carimbo" do aluno naquele horário (impede 2 salas ao mesmo tempo)
+        && existsAfter(/databases/$(database)/documents/ocupacoes/$(request.auth.uid + '_' + request.resource.data.data + '_' + string(request.resource.data.hora)));
+
+      allow update: if false;
+      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+
+    // Carimbo "aluno X está ocupado em data/hora" (ID = uid_data_hora)
+    match /ocupacoes/{id} {
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['uid', 'data', 'hora'])
+        && request.resource.data.uid == request.auth.uid
+        && id == request.auth.uid + '_' + request.resource.data.data + '_' + string(request.resource.data.hora);
+      allow read, update: if false;
+      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth">
+    <main class="card">
+        <div class="logo">🎓</div>
+        <h1>Criar conta</h1>
+        <p class="subtitulo">Cadastre-se como aluno</p>
+        <form>
+            <div>
+                <label for="nome">Nome</label>
+                <input type="text" name="nome" id="nome" placeholder="Seu nome" required>
+            </div>
+            <div>
+                <label for="login">Email</label>
+                <input type="email" name="login" id="login" placeholder="voce@email.com" required>
+            </div>
+            <div>
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" placeholder="Mínimo 6 caracteres" required>
+            </div>
+            <button type="button" class="btn btn-cadastrar">CADASTRAR</button>
+            <a class="link" href="index.html">Já tenho conta</a>
+        </form>
+    </main>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
